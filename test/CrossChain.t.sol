@@ -11,7 +11,9 @@ import {IRebaseToken} from "../src/interfaces/IRebaseToken.sol";
 import {IERC20} from "@ccip/contracts/src/v0.8/vendor/openzeppelin-solidity/v4.8.3/contracts/token/ERC20/IERC20.sol";
 
 import {CCIPLocalSimulatorFork, Register} from "@ccip-local/src/ccip/CCIPLocalSimulatorFork.sol";
-import {RegistryModuleOwnerCustom} from "@ccip/contracts/src/v0.8/ccip/tokenAdminRegistry/RegistryModuleOwnerCustom.sol";
+import {
+    RegistryModuleOwnerCustom
+} from "@ccip/contracts/src/v0.8/ccip/tokenAdminRegistry/RegistryModuleOwnerCustom.sol";
 import {TokenAdminRegistry} from "@ccip/contracts/src/v0.8/ccip/tokenAdminRegistry/TokenAdminRegistry.sol";
 import {TokenPool} from "@ccip/contracts/src/v0.8/ccip/pools/TokenPool.sol";
 import {RateLimiter} from "@ccip/contracts/src/v0.8/ccip/libraries/RateLimiter.sol";
@@ -62,13 +64,11 @@ contract CrossChainTest is Test {
         );
         sepoliaToken.grantMintAndBurnRole(address(sepoliaPool));
         sepoliaToken.grantMintAndBurnRole(address(vault));
-        RegistryModuleOwnerCustom(sepoliaNetworkDetails.registryModuleOwnerCustomAddress).registerAdminViaOwner(
-            address(sepoliaToken)
-        );
+        RegistryModuleOwnerCustom(sepoliaNetworkDetails.registryModuleOwnerCustomAddress)
+            .registerAdminViaOwner(address(sepoliaToken));
         TokenAdminRegistry(sepoliaNetworkDetails.tokenAdminRegistryAddress).acceptAdminRole(address(sepoliaToken));
-        TokenAdminRegistry(sepoliaNetworkDetails.tokenAdminRegistryAddress).setPool(
-            address(sepoliaToken), address(sepoliaPool)
-        );
+        TokenAdminRegistry(sepoliaNetworkDetails.tokenAdminRegistryAddress)
+            .setPool(address(sepoliaToken), address(sepoliaPool));
         vm.stopPrank();
 
         // 2. Deploy and configure on ArbSepolia
@@ -83,13 +83,11 @@ contract CrossChainTest is Test {
             arbSepoliaNetworkDetails.routerAddress
         );
         arbSepoliaToken.grantMintAndBurnRole(address(arbSepoliaPool));
-        RegistryModuleOwnerCustom(arbSepoliaNetworkDetails.registryModuleOwnerCustomAddress).registerAdminViaOwner(
-            address(arbSepoliaToken)
-        );
+        RegistryModuleOwnerCustom(arbSepoliaNetworkDetails.registryModuleOwnerCustomAddress)
+            .registerAdminViaOwner(address(arbSepoliaToken));
         TokenAdminRegistry(arbSepoliaNetworkDetails.tokenAdminRegistryAddress).acceptAdminRole(address(arbSepoliaToken));
-        TokenAdminRegistry(arbSepoliaNetworkDetails.tokenAdminRegistryAddress).setPool(
-            address(arbSepoliaToken), address(arbSepoliaPool)
-        );
+        TokenAdminRegistry(arbSepoliaNetworkDetails.tokenAdminRegistryAddress)
+            .setPool(address(arbSepoliaToken), address(arbSepoliaPool));
         vm.stopPrank();
 
         configureTokenPool(
